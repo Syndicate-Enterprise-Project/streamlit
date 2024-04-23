@@ -3,7 +3,8 @@ import base64
 
 from streamlit_option_menu import option_menu
 from view import home
-st.set_page_config(layout="wide")
+
+st.set_page_config(layout="wide", page_title="Syndicate", page_icon="data/syndicate.png")
 
 @st.cache_data
 def get_img_as_base64(file):

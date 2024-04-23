@@ -5,8 +5,6 @@ from model import model as data
 from streamlit_extras.metric_cards import style_metric_cards
 
 data_clean = data.load_data_clean()
-data_modelling = data.load_data_modelling()
-
 
 def dataset(df):
     filter_options = ['No. Penjualan', 'Tanggal Pengiriman', 'Tanggal Penjualan', 'Tipe Mobil', 'Warna',
@@ -22,24 +20,35 @@ def dataset(df):
 
 
 def top_analytics(df):
+    st.markdown(
+        """
+        <style>
+        [data-testid="stMetricValue"] {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        """,
+        unsafe_allow_html=True,
+    )
+
     total_penjualan = df['Harga (Rp)'].sum()
     rata_rata_penjualan = df['Harga (Rp)'].mean()
-    median_penjualan = df['Harga (Rp)'].median()
+    tipe_mobil_terlaris = df['Tipe Mobil'].value_counts().idxmax()
 
-    analytics1, analytics2, analytics3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with analytics1:
-        st.info('Total Penjualan', icon="💰")
-        st.metric("Total Penjualan", f"Rp {total_penjualan:,}")
+    with col1:
+        st.subheader('Total Penjualan')
+        st.metric("Total", f"Rp {total_penjualan:,.2f}", delta_color="off")
 
-    with analytics2:
-        st.info('Rata-Rata Penjualan', icon="💰")
-        st.metric("Rata-rata Penjualan", f"Rp {rata_rata_penjualan:,}")
+    with col2:
+        st.subheader('Rata-Rata Penjualan')
+        st.metric("Rata-rata", f"Rp {rata_rata_penjualan:,.2f}", delta_color="off")
 
-    with analytics3:
-        st.info('Median Penjualan', icon="💰")
-        st.metric("Median Penjualan", f"Rp {median_penjualan:,}")
-    style_metric_cards(background_color="#0e1117", border_left_color="#686664", border_color="#000000",
+    with col3:
+        st.subheader('Tipe Mobil Terlaris')
+        st.metric("Tipe Mobil", f"{tipe_mobil_terlaris}", delta_color="off")
+    style_metric_cards(background_color="#0e1117", border_left_color="#ed1d56", border_color="#000000",
                        box_shadow="#F71938")
 
 
@@ -107,6 +116,7 @@ def graph_tab1(df):
 
 
 def graph_tab2(df):
+    st.caption("Diagram Scatter Plot Tanggal Penjualan dan Tanggal SPK")
     df['Tanggal SPK'] = pd.to_datetime(df['Tanggal SPK'])
     df['Tanggal Penjualan'] = pd.to_datetime(df['Tanggal Penjualan'])
     df['Tanggal Pengiriman'] = pd.to_datetime(df['Tanggal Pengiriman'])
@@ -117,6 +127,7 @@ def graph_tab2(df):
 
 
 def graph_tab3(df):
+    st.caption("Diagram Pie Chart Jenis Pembayaran")
     payment = df['Cara Pembayaran'].value_counts()
     fig = px.pie(names=payment.index, values=payment.values, title="Jenis Pembayaran Mobil di Dealer Chery")
     fig.update_traces(marker=dict(colors=['#6B5B95', '#FF6F61'], line=dict(color='#FFFFFF', width=2)))
@@ -125,6 +136,7 @@ def graph_tab3(df):
 
 
 def graph_tab4(df):
+    st.caption("Diagram Bar Chart Penjualan Berdasarkan Bulan")
     df['Tanggal SPK'] = pd.to_datetime(df['Tanggal SPK'])
 
     total_penjualan_per_bulan = df.groupby(df['Tanggal SPK'].dt.strftime('%B')).size().reset_index(
@@ -144,25 +156,31 @@ def graph_tab4(df):
 
 def main():
     st.title("Dashboard Penjualan Chery (2023)!")
-
     with st.expander("Lihat Dataset"):
         dataset(data_clean)
 
     top_analytics(data_clean)
 
+    st.markdown("---")
+
+    st.subheader("Filter Data")
+
+    min_price, max_price = int(data_clean['Harga (Rp)'].min()), int(data_clean['Harga (Rp)'].max())
+    selected_price_range = st.slider("Select Price Range:", min_value=min_price, max_value=max_price,
+                                     value=(min_price, max_price))
+
+    filtered_data = data_clean[
+        (data_clean['Harga (Rp)'] >= selected_price_range[0]) & (data_clean['Harga (Rp)'] <= selected_price_range[1])]
+
     tab1, tab2, tab3, tab4 = st.tabs(["Comparison", "Relation", "Composition", "Distribution"])
-
     with tab1:
-        graph_tab1(data_clean)
-
+        graph_tab1(filtered_data)
     with tab2:
-        graph_tab2(data_clean)
-
+        graph_tab2(filtered_data)
     with tab3:
-        graph_tab3(data_clean)
-
+        graph_tab3(filtered_data)
     with tab4:
-        graph_tab4(data_clean)
+        graph_tab4(filtered_data)
 
 
 if __name__ == "__main__":
