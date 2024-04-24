@@ -7,6 +7,7 @@ from streamlit_option_menu import option_menu
 
 data_clean = data.load_data_clean()
 
+
 def dataset(df):
     filter_options = ['No. Penjualan', 'Tanggal Pengiriman', 'Tanggal Penjualan', 'Tipe Mobil', 'Warna',
                       'Sumber Penjualan', 'No. SPK',
@@ -54,7 +55,7 @@ def top_analytics(df):
 
 
 def graph_tab1(df):
-    st.caption("Diagram Line Chart Penjualan Chery per Bulan (2023)")
+    st.subheader("Diagram Line Chart Penjualan Chery per Bulan (2023)")
 
     df['Tanggal SPK'] = pd.to_datetime(df['Tanggal SPK'])
 
@@ -73,51 +74,54 @@ def graph_tab1(df):
     fig_line.update_layout(title_x=0.5)
     st.plotly_chart(fig_line, use_container_width=True, style={'border': '1px solid black'})
 
-    st.caption("Diagram Bar Chart Penjualan Berdasarkan Sumber Penjualan, Tipe Mobil, dan Warna Mobil (2023)")
+    # Temukan bulan dengan jumlah penjualan terbanyak dan terendah
+    bulan_max = total_penjualan_per_bulan.loc[total_penjualan_per_bulan['Jumlah Penjualan'].idxmax(), 'Bulan']
+    bulan_min = total_penjualan_per_bulan.loc[total_penjualan_per_bulan['Jumlah Penjualan'].idxmin(), 'Bulan']
 
-    col1, col2, col3 = st.columns(3)
+    # Tampilkan kesimpulan di bawah grafik
+    st.write(f"Berdasarkan grafik garis di atas, terlihat bahwa penjualan mobil Chery mengalami peningkatan pada bulan "
+             f"{bulan_max}, mencapai jumlah penjualan terbanyak. Namun, terjadi penurunan signifikan pada bulan "
+             f"{bulan_min}, dengan jumlah penjualan terendah.")
+    st.markdown("---")
 
-    with col1:
-        st.subheader("Sumber Penjualan")
-        jumlah_penjualan_per_sumber = df['Sumber Penjualan'].value_counts().reset_index()
-        jumlah_penjualan_per_sumber.columns = ['Sumber Penjualan', 'Jumlah Penjualan']
-        fig_sumber = px.bar(jumlah_penjualan_per_sumber, y='Sumber Penjualan', x='Jumlah Penjualan',
-                            orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Sumber Penjualan',
-                            category_orders={'Sumber Penjualan': jumlah_penjualan_per_sumber.sort_values(
-                                'Jumlah Penjualan')['Sumber Penjualan']})
-        fig_sumber.update_xaxes(title='Jumlah Penjualan')
-        fig_sumber.update_yaxes(title='Sumber Penjualan')
-        st.plotly_chart(fig_sumber, use_container_width=True, style={'border': '1px solid black'})
+    st.subheader("Diagram Bar Chart Penjualan Berdasarkan Sumber Penjualan, Tipe Mobil, dan Warna Mobil (2023)")
 
-    with col2:
-        # Diagram Bar Chart Penjualan Berdasarkan Tipe Mobil
-        st.subheader("Tipe Mobil")
-        jumlah_penjualan_per_tipemobil = df['Tipe Mobil'].value_counts().reset_index()
-        jumlah_penjualan_per_tipemobil.columns = ['Tipe Mobil', 'Jumlah Penjualan']
-        fig_tipemobil = px.bar(jumlah_penjualan_per_tipemobil, y='Tipe Mobil', x='Jumlah Penjualan',
-                               orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Tipe Mobil',
-                               category_orders={'Tipe Mobil': jumlah_penjualan_per_tipemobil.sort_values(
-                                   'Jumlah Penjualan')['Tipe Mobil']})
-        fig_tipemobil.update_xaxes(title='Jumlah Penjualan')
-        fig_tipemobil.update_yaxes(title='Tipe Mobil')
-        st.plotly_chart(fig_tipemobil, use_container_width=True, style={'border': '1px solid black'})
+    st.subheader("Sumber Penjualan")
+    jumlah_penjualan_per_sumber = df['Sumber Penjualan'].value_counts().reset_index()
+    jumlah_penjualan_per_sumber.columns = ['Sumber Penjualan', 'Jumlah Penjualan']
+    fig_sumber = px.bar(jumlah_penjualan_per_sumber, y='Sumber Penjualan', x='Jumlah Penjualan',
+                        orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Sumber Penjualan',
+                        category_orders={'Sumber Penjualan': jumlah_penjualan_per_sumber.sort_values(
+                            'Jumlah Penjualan')['Sumber Penjualan']})
+    fig_sumber.update_xaxes(title='Jumlah Penjualan')
+    fig_sumber.update_yaxes(title='Sumber Penjualan')
+    st.plotly_chart(fig_sumber, use_container_width=True, style={'border': '1px solid black'})
 
-    with col3:
-        # Diagram Bar Chart Penjualan Berdasarkan Warna Mobil
-        st.subheader("Warna Mobil")
-        jumlah_penjualan_per_warna = df['Warna'].value_counts().reset_index()
-        jumlah_penjualan_per_warna.columns = ['Warna Mobil', 'Jumlah Penjualan']
-        fig_warna = px.bar(jumlah_penjualan_per_warna, y='Warna Mobil', x='Jumlah Penjualan',
-                           orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Warna Mobil',
-                           category_orders={'Warna Mobil': jumlah_penjualan_per_warna.sort_values(
-                               'Jumlah Penjualan')['Warna Mobil']})
-        fig_warna.update_xaxes(title='Jumlah Penjualan')
-        fig_warna.update_yaxes(title='Warna Mobil')
-        st.plotly_chart(fig_warna, use_container_width=True, style={'border': '1px solid black'})
+    st.subheader("Tipe Mobil")
+    jumlah_penjualan_per_tipemobil = df['Tipe Mobil'].value_counts().reset_index()
+    jumlah_penjualan_per_tipemobil.columns = ['Tipe Mobil', 'Jumlah Penjualan']
+    fig_tipemobil = px.bar(jumlah_penjualan_per_tipemobil, y='Tipe Mobil', x='Jumlah Penjualan',
+                           orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Tipe Mobil',
+                           category_orders={'Tipe Mobil': jumlah_penjualan_per_tipemobil.sort_values(
+                               'Jumlah Penjualan')['Tipe Mobil']})
+    fig_tipemobil.update_xaxes(title='Jumlah Penjualan')
+    fig_tipemobil.update_yaxes(title='Tipe Mobil')
+    st.plotly_chart(fig_tipemobil, use_container_width=True, style={'border': '1px solid black'})
+
+    st.subheader("Warna Mobil")
+    jumlah_penjualan_per_warna = df['Warna'].value_counts().reset_index()
+    jumlah_penjualan_per_warna.columns = ['Warna Mobil', 'Jumlah Penjualan']
+    fig_warna = px.bar(jumlah_penjualan_per_warna, y='Warna Mobil', x='Jumlah Penjualan',
+                       orientation='h', title='Jumlah Penjualan Mobil Chery berdasarkan Warna Mobil',
+                       category_orders={'Warna Mobil': jumlah_penjualan_per_warna.sort_values(
+                           'Jumlah Penjualan')['Warna Mobil']})
+    fig_warna.update_xaxes(title='Jumlah Penjualan')
+    fig_warna.update_yaxes(title='Warna Mobil')
+    st.plotly_chart(fig_warna, use_container_width=True, style={'border': '1px solid black'})
 
 
 def graph_tab2(df):
-    st.caption("Diagram Scatter Plot Tanggal Penjualan dan Tanggal SPK")
+    st.subheader("Diagram Scatter Plot Tanggal Penjualan dan Tanggal SPK")
     df['Tanggal SPK'] = pd.to_datetime(df['Tanggal SPK'])
     df['Tanggal Penjualan'] = pd.to_datetime(df['Tanggal Penjualan'])
     df['Tanggal Pengiriman'] = pd.to_datetime(df['Tanggal Pengiriman'])
@@ -128,7 +132,7 @@ def graph_tab2(df):
 
 
 def graph_tab3(df):
-    st.caption("Diagram Pie Chart Jenis Pembayaran")
+    st.subheader("Diagram Pie Chart Jenis Pembayaran")
     payment = df['Cara Pembayaran'].value_counts()
     fig = px.pie(names=payment.index, values=payment.values, title="Jenis Pembayaran Mobil di Dealer Chery")
     fig.update_traces(marker=dict(colors=['#6B5B95', '#FF6F61'], line=dict(color='#FFFFFF', width=2)))
@@ -137,7 +141,7 @@ def graph_tab3(df):
 
 
 def graph_tab4(df):
-    st.caption("Diagram Bar Chart Penjualan Berdasarkan Bulan")
+    st.subheader("Diagram Bar Chart Penjualan Berdasarkan Bulan")
     df['Tanggal SPK'] = pd.to_datetime(df['Tanggal SPK'])
 
     total_penjualan_per_bulan = df.groupby(df['Tanggal SPK'].dt.strftime('%B')).size().reset_index(
@@ -163,19 +167,6 @@ def main():
     top_analytics(data_clean)
 
     st.markdown("---")
-
-    st.subheader("Filter Data")
-
-    jumlah_data = data_clean.value_counts().reset_index()
-    selected_jumlah_data = st.slider("Select Number of Data:", min_value=0, max_value=len(jumlah_data)-1, value=len(jumlah_data)-1)
-
-    min_price, max_price = int(data_clean['Harga (Rp)'].min()), int(data_clean['Harga (Rp)'].max())
-    selected_price_range = st.slider("Select Price Range:", min_value=min_price, max_value=max_price,
-                                     value=(min_price, max_price))
-
-    filtered_data = data_clean[(data_clean['Harga (Rp)'] >= selected_price_range[0]) &
-                               (data_clean['Harga (Rp)'] <= selected_price_range[1])]
-    filtered_data = filtered_data[:selected_jumlah_data]
 
     selected_tab = option_menu(
         "Grafik Data",
@@ -210,6 +201,22 @@ def main():
             },
         }
     )
+
+    st.subheader("Filter Data")
+
+    jumlah_data = data_clean.value_counts().reset_index()
+    selected_jumlah_data = st.slider("Select Number of Data:", min_value=0, max_value=len(jumlah_data) - 1,
+                                     value=len(jumlah_data) - 1)
+
+    min_price, max_price = int(data_clean['Harga (Rp)'].min()), int(data_clean['Harga (Rp)'].max())
+    selected_price_range = st.slider("Select Price Range:", min_value=min_price, max_value=max_price,
+                                     value=(min_price, max_price))
+
+    filtered_data = data_clean[(data_clean['Harga (Rp)'] >= selected_price_range[0]) &
+                               (data_clean['Harga (Rp)'] <= selected_price_range[1])]
+    filtered_data = filtered_data[:selected_jumlah_data]
+
+    st.markdown("---")
 
     if selected_tab == "Comparison":
         graph_tab1(filtered_data)
