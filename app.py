@@ -3,6 +3,7 @@ import base64
 
 from streamlit_option_menu import option_menu
 from view import home
+from view import clustering
 
 st.set_page_config(layout="wide", page_title="Syndicate", page_icon="data/syndicate.png")
 
@@ -47,7 +48,7 @@ def main():
     if page == "Home":
         home.main()
     elif page == "Clustering":
-        pass
+        clustering.main()
 
 
 if __name__ == '__main__':

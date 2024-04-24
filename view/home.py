@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 from model import model as data
 from streamlit_extras.metric_cards import style_metric_cards
+from streamlit_option_menu import option_menu
 
 data_clean = data.load_data_clean()
 
@@ -165,21 +166,58 @@ def main():
 
     st.subheader("Filter Data")
 
+    jumlah_data = data_clean.value_counts().reset_index()
+    selected_jumlah_data = st.slider("Select Number of Data:", min_value=0, max_value=len(jumlah_data)-1, value=len(jumlah_data)-1)
+
     min_price, max_price = int(data_clean['Harga (Rp)'].min()), int(data_clean['Harga (Rp)'].max())
     selected_price_range = st.slider("Select Price Range:", min_value=min_price, max_value=max_price,
                                      value=(min_price, max_price))
 
-    filtered_data = data_clean[
-        (data_clean['Harga (Rp)'] >= selected_price_range[0]) & (data_clean['Harga (Rp)'] <= selected_price_range[1])]
+    filtered_data = data_clean[(data_clean['Harga (Rp)'] >= selected_price_range[0]) &
+                               (data_clean['Harga (Rp)'] <= selected_price_range[1])]
+    filtered_data = filtered_data[:selected_jumlah_data]
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Comparison", "Relation", "Composition", "Distribution"])
-    with tab1:
+    selected_tab = option_menu(
+        "Grafik Data",
+        options=["Comparison", "Relation", "Composition", "Distribution"],
+        icons=["bar-chart", "bar-chart", "bar-chart", "bar-chart"],
+        menu_icon="cast",
+        default_index=0,
+        orientation="horizontal",
+        styles={
+            "nav": {
+                "border-radius": "10px",
+            },
+            "nav-item": {
+                "margin": "0px 5px",
+            },
+            "icon": {
+                "color": "white",
+                "font-size": "18px",
+            },
+            "nav-link": {
+                "font-size": "15px",
+                "text-align": "center",
+                "margin": "0px 12px",
+                "--hover-color": "#a01239",
+                "padding": "8px 12px",
+                "border-radius": "10px",
+            },
+            "nav-link-selected": {
+                "background-color": "#ed1d56",
+                "color": "white",
+                "border-radius": "10px",
+            },
+        }
+    )
+
+    if selected_tab == "Comparison":
         graph_tab1(filtered_data)
-    with tab2:
+    elif selected_tab == "Relation":
         graph_tab2(filtered_data)
-    with tab3:
+    elif selected_tab == "Composition":
         graph_tab3(filtered_data)
-    with tab4:
+    elif selected_tab == "Distribution":
         graph_tab4(filtered_data)
 
 
