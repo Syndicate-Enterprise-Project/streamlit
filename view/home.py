@@ -97,6 +97,13 @@ def graph_tab1(df):
     fig_sumber.update_yaxes(title='Sumber Penjualan')
     st.plotly_chart(fig_sumber, use_container_width=True, style={'border': '1px solid black'})
 
+    sumber_penjualan_terbanyak = jumlah_penjualan_per_sumber.loc[jumlah_penjualan_per_sumber['Jumlah Penjualan'].idxmax(), 'Sumber Penjualan']
+
+    st.subheader("Hasil Analisis")
+    st.markdown(f"Sumber penjualan yang paling sering dilihat adalah {sumber_penjualan_terbanyak}.")
+
+    st.markdown("---")
+
     st.subheader("Tipe Mobil")
     jumlah_penjualan_per_tipemobil = df['Tipe Mobil'].value_counts().reset_index()
     jumlah_penjualan_per_tipemobil.columns = ['Tipe Mobil', 'Jumlah Penjualan']
@@ -107,6 +114,13 @@ def graph_tab1(df):
     fig_tipemobil.update_xaxes(title='Jumlah Penjualan')
     fig_tipemobil.update_yaxes(title='Tipe Mobil')
     st.plotly_chart(fig_tipemobil, use_container_width=True, style={'border': '1px solid black'})
+
+    tipemobil_terbanyak = jumlah_penjualan_per_tipemobil.loc[jumlah_penjualan_per_tipemobil['Jumlah Penjualan'].idxmax(), 'Tipe Mobil']
+
+    st.subheader("Hasil Analisis")
+    st.markdown(f"Tipe mobil yang paling sering terjual adalah {tipemobil_terbanyak}.")
+
+    st.markdown("---")
 
     st.subheader("Warna Mobil")
     jumlah_penjualan_per_warna = df['Warna'].value_counts().reset_index()
@@ -119,6 +133,13 @@ def graph_tab1(df):
     fig_warna.update_yaxes(title='Warna Mobil')
     st.plotly_chart(fig_warna, use_container_width=True, style={'border': '1px solid black'})
 
+    warna_terbanyak = jumlah_penjualan_per_warna.loc[jumlah_penjualan_per_warna['Jumlah Penjualan'].idxmax(), 'Warna Mobil']
+
+    st.subheader("Hasil Analisis")
+    st.markdown(f"Warna mobil yang paling sering terpiih adalah {warna_terbanyak}.")
+
+    st.markdown("---")
+
 
 def graph_tab2(df):
     st.subheader("Diagram Scatter Plot Tanggal Penjualan dan Tanggal SPK")
@@ -130,6 +151,13 @@ def graph_tab2(df):
     fig.update_layout(xaxis_title='Tanggal Penjualan', yaxis_title='Tanggal SPK', xaxis_tickangle=0)
     st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
 
+    st.subheader("Hasil Analisis")
+    st.markdown("Dari hasil analisis diatas, menunjukkan perbandingan antara tanggal pemesanan (SPK) dan tanggal penjualan."
+                "Grafik scatter plot ini berisi kumpulan titik yang menunjukkan adanya korelasi positif antara dua kolom tersebut. "
+                "Artinya, dengan bertambahnya tanggal penjualan, tanggal pesanan penjualan juga meningkat. "
+                "Titik-titik tersebut lebih terfokus pada bagian akhir rentang waktu, menunjukkan peningkatan aktivitas atau titik data dari waktu ke waktu. ")
+    st.markdown("---")
+
 
 def graph_tab3(df):
     st.subheader("Diagram Pie Chart Jenis Pembayaran")
@@ -138,6 +166,17 @@ def graph_tab3(df):
     fig.update_traces(marker=dict(colors=['#6B5B95', '#FF6F61'], line=dict(color='#FFFFFF', width=2)))
     fig.update_layout(showlegend=True)
     st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    cash = df[df['Cara Pembayaran'] == 'CASH']['Harga (Rp)'].sum()
+    credit = df[df['Cara Pembayaran'] == 'CREDIT']['Harga (Rp)'].sum()
+    st.subheader("Hasil Analisis")
+    st.markdown(f"Dari hasil penjualan mobil Chery, mayoritas pembayaran dilakukan secara tunai (CASH) dengan total penjualan mencapai {cash:,}, "
+                f"sedangkan pembayaran dengan kredit (CREDIT) juga signifikan dengan total penjualan sebesar {credit:,}. "
+                f"Perbandingan ini menunjukkan preferensi konsumen dalam metode pembayaran, dengan dominasi pembayaran tunai namun juga adanya permintaan untuk opsi kredit yang tersedia.")
+
+
+    st.markdown("---")
+
 
 
 def graph_tab4(df):
@@ -157,6 +196,16 @@ def graph_tab4(df):
     fig.update_layout(title='Jumlah Penjualan Mobil Chery per Bulan (2023)', xaxis_title='Bulan',
                       yaxis_title='Jumlah Penjualan')
     st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    # Temukan bulan dengan penjualan terbanyak dan terendah
+    bulan_max = total_penjualan_per_bulan.loc[total_penjualan_per_bulan['Jumlah Penjualan'].idxmax(), 'Bulan']
+    bulan_min = total_penjualan_per_bulan.loc[total_penjualan_per_bulan['Jumlah Penjualan'].idxmin(), 'Bulan']
+
+    # Tampilkan kesimpulan di bawah grafik
+    st.write(f"Berdasarkan grafik baris di atas, terlihat bahwa penjualan mobil Chery mengalami peningkatan pada bulan "
+             f"{bulan_max}, mencapai penjualan terbanyak. Namun, terjadi penurunan signifikan pada bulan "
+             f"{bulan_min}, dengan penjualan terendah.")
+    st.markdown("---")
 
 
 def main():
@@ -221,7 +270,7 @@ def main():
     if selected_tab == "Comparison":
         graph_tab1(filtered_data)
     elif selected_tab == "Relation":
-        graph_tab2(filtered_data)
+        graph_tab2(data_clean)
     elif selected_tab == "Composition":
         graph_tab3(filtered_data)
     elif selected_tab == "Distribution":
