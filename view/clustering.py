@@ -79,12 +79,11 @@ def display_kmeans_cluster1(df):
     st.markdown("---")
 
     st.subheader("Kesimpulan")
-    st.markdown('''
-        - Rentang bulan Mei hingga Desember menunjukkan dominasi penjualan oleh tipe mobil Omoda 5 Z(4x2) AT.
-        - Kecuali pada bulan Juni, Juli, dan November, di mana tidak ada penjualan untuk tipe mobil ini.
-        - Selain itu, terdapat variasi dengan penjualan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
-        - Cluster ini menunjukkan kecenderungan untuk beralih antara dua tipe mobil utama, tetapi tetap dengan fokus pada tipe mobil utama, yaitu Omoda 5 Z(4x2) AT.
-        ''')
+    st.markdown(''' 
+        - Rentang bulan Januari hingga Desember menunjukkan penjualan yang konsisten dengan dominasi oleh tipe mobil Tiggo 8 Pro Premium (4x2) AT.
+        - Meskipun terdapat bulan-bulan tanpa penjualan, tipe mobil ini tetap menjadi pilihan utama dalam cluster ini.
+        - Cluster ini menunjukkan kestabilan dalam pola penjualan dengan fokus utama pada satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT.
+    ''')
 
     st.markdown("---")
 
@@ -102,9 +101,10 @@ def display_kmeans_cluster2(df):
 
     st.subheader("Kesimpulan")
     st.markdown('''
-    - Rentang bulan Januari hingga Desember menunjukkan penjualan yang konsisten dengan dominasi oleh tipe mobil Tiggo 8 Pro Premium (4x2) AT.
-    - Meskipun terdapat bulan-bulan tanpa penjualan, tipe mobil ini tetap menjadi pilihan utama dalam cluster ini.
-    - Cluster ini menunjukkan kestabilan dalam pola penjualan dengan fokus utama pada satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT.
+    - Rentang bulan Mei hingga Desember menunjukkan dominasi penjualan oleh tipe mobil Omoda 5 Z(4x2) AT.
+    - Kecuali pada bulan Juni, Juli, dan November, di mana tidak ada penjualan untuk tipe mobil ini.
+    - Selain itu, terdapat variasi dengan penjualan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
+    - Cluster ini menunjukkan kecenderungan untuk beralih antara dua tipe mobil utama, tetapi tetap dengan fokus pada tipe mobil utama, yaitu Omoda 5 Z(4x2) AT.
     ''')
 
     st.markdown("---")
