@@ -37,7 +37,7 @@ def main():
     st.sidebar.title("Selamat Datang!")
     with st.sidebar:
         page = option_menu("Main Menu",
-                           ["Home", "Clustering"],
+                           ["General", "Details"],
                            icons=["house", "book"],
                            menu_icon="cast", default_index=0,
                            styles={
@@ -45,9 +45,9 @@ def main():
                                             "--hover-color": "#a01239"},
                                "nav-link-selected": {"background-color": "#ed1d56"},
                            })
-    if page == "Home":
+    if page == "General":
         home.main()
-    elif page == "Clustering":
+    elif page == "Details":
         clustering.main()
 
 

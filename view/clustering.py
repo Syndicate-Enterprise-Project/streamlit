@@ -71,11 +71,19 @@ def display_kmeans_cluster1(df):
     cluster_1_df = df[df['cluster_kmeans'] == 1]
     st.write(cluster_1_df)
 
+    fig = px.pie(names=cluster_1_df['Tipe Mobil'].value_counts().index,
+                 values=cluster_1_df['Tipe Mobil'].value_counts().values,
+                 title="Diagram Pie Chart Tipe Mobil di Cluster 1")
+    st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    st.markdown("---")
+
     st.subheader("Kesimpulan")
     st.markdown('''
-        - Rentang bulan Januari hingga Desember menunjukkan penjualan yang stabil dan dominan oleh tipe mobil Omoda 5 RZ (4x2) AT.
-        - Meskipun terdapat variasi bulan ke bulan, tipe mobil ini secara konsisten menjadi pilihan utama konsumen dalam cluster ini.
-        - Cluster ini menunjukkan kecenderungan untuk tetap fokus pada satu tipe mobil yang menunjukkan preferensi kuat dari pelanggan.
+        - Rentang bulan Mei hingga Desember menunjukkan dominasi penjualan oleh tipe mobil Omoda 5 Z(4x2) AT.
+        - Kecuali pada bulan Juni, Juli, dan November, di mana tidak ada penjualan untuk tipe mobil ini.
+        - Selain itu, terdapat variasi dengan penjualan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
+        - Cluster ini menunjukkan kecenderungan untuk beralih antara dua tipe mobil utama, tetapi tetap dengan fokus pada tipe mobil utama, yaitu Omoda 5 Z(4x2) AT.
         ''')
 
     st.markdown("---")
@@ -85,21 +93,33 @@ def display_kmeans_cluster2(df):
     cluster_2_df = df[df['cluster_kmeans'] == 2]
     st.write(cluster_2_df)
 
+    fig = px.pie(names=cluster_2_df['Tipe Mobil'].value_counts().index,
+                 values=cluster_2_df['Tipe Mobil'].value_counts().values,
+                 title="Diagram Pie Chart Tipe Mobil di Cluster 2")
+    st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    st.markdown("---")
+
     st.subheader("Kesimpulan")
     st.markdown('''
-    - Rentang bulan Mei hingga Desember menunjukkan dominasi penjualan oleh tipe mobil Omoda 5 Z(4x2) AT.
-    - Kecuali pada bulan Juni, Juli, dan November, di mana tidak ada penjualan untuk tipe mobil ini.
-    - Selain itu, terdapat variasi dengan penjualan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
-    - Cluster ini menunjukkan kecenderungan untuk beralih antara dua tipe mobil utama, tetapi tetap dengan fokus pada tipe mobil utama, yaitu Omoda 5 Z(4x2) AT.
+    - Rentang bulan Januari hingga Desember menunjukkan penjualan yang konsisten dengan dominasi oleh tipe mobil Tiggo 8 Pro Premium (4x2) AT.
+    - Meskipun terdapat bulan-bulan tanpa penjualan, tipe mobil ini tetap menjadi pilihan utama dalam cluster ini.
+    - Cluster ini menunjukkan kestabilan dalam pola penjualan dengan fokus utama pada satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT.
     ''')
 
     st.markdown("---")
 
 
-
 def display_kmeans_cluster3(df):
     cluster_3_df = df[df['cluster_kmeans'] == 3]
     st.write(cluster_3_df)
+
+    fig = px.pie(names=cluster_3_df['Tipe Mobil'].value_counts().index,
+                 values=cluster_3_df['Tipe Mobil'].value_counts().values,
+                 title="Diagram Pie Chart Tipe Mobil di Cluster 2")
+    st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    st.markdown("---")
 
     st.subheader("Kesimpulan")
     st.markdown('''
@@ -115,11 +135,18 @@ def display_kmeans_cluster4(df):
     cluster_4_df = df[df['cluster_kmeans'] == 4]
     st.write(cluster_4_df)
 
+    fig = px.pie(names=cluster_4_df['Tipe Mobil'].value_counts().index,
+                 values=cluster_4_df['Tipe Mobil'].value_counts().values,
+                 title="Diagram Pie Chart Tipe Mobil di Cluster 2")
+    st.plotly_chart(fig, use_container_width=True, style={'border': '1px solid black'})
+
+    st.markdown("---")
+
     st.subheader("Kesimpulan")
     st.markdown('''
-    - Rentang bulan Januari hingga Desember menunjukkan penjualan yang konsisten dengan dominasi oleh tipe mobil Tiggo 8 Pro Premium (4x2) AT.
-    - Meskipun terdapat bulan-bulan tanpa penjualan, tipe mobil ini tetap menjadi pilihan utama dalam cluster ini.
-    - Cluster ini menunjukkan kestabilan dalam pola penjualan dengan fokus utama pada satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT.
+    - Rentang bulan Januari hingga Desember menunjukkan penjualan yang stabil dan dominan oleh tipe mobil Omoda 5 RZ (4x2) AT.
+    - Meskipun terdapat variasi bulan ke bulan, tipe mobil ini secara konsisten menjadi pilihan utama konsumen dalam cluster ini.
+    - Cluster ini menunjukkan kecenderungan untuk tetap fokus pada satu tipe mobil yang menunjukkan preferensi kuat dari pelanggan.
     ''')
 
     st.markdown("---")
@@ -134,10 +161,10 @@ def clustering_kmeans(df):
     st.markdown('''
     Terlihat pada grafik scatter plot di atas terdapat 4 cluster, di mana masing-masing cluster memiliki ciri khas:
 
-- **Cluster 1:** Rentang bulan Januari hingga Desember menunjukkan penjualan mobil yang didominasi oleh tipe **Omoda 5 RZ (4x2) AT**, dengan jumlah penjualan lebih tinggi dibandingkan dengan tipe mobil **Omoda 5 Z (4x2) AT Two Tone** yang hanya terjual pada bulan Maret, April, Agustus, September, Oktober, dan Desember.
-- **Cluster 2:** Rentang bulan Mei hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil **Omoda 5 Z(4x2) AT**, kecuali bulan Juni, Juli, dan November yang tidak memiliki penjualan dengan tipe mobil tersebut. Selain itu, terdapat penjualan dengan tipe mobil **Tiggo 7 Pro Comfort (4x2) AT** pada bulan Mei dan Agustus.
+- **Cluster 1:** Rentang bulan Mei hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil Omoda 5 Z(4x2) AT, kecuali bulan Juni, Juli, dan November yang tidak memiliki penjualan dengan tipe mobil tersebut. Selain itu, terdapat penjualan dengan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
+- **Cluster 2:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT, meskipun tidak ada penjualan pada bulan September, November, dan Desember.
 - **Cluster 3:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil **Tiggo 7 Pro Premium (4x2) AT Two Tone**, walaupun tidak ada penjualan pada bulan April, Mei, Juli, Agustus, Oktober, November, dan Desember. Selain itu, terdapat penjualan dengan tipe mobil **Tiggo 7 Pro Luxury (4x2) AT** hanya pada bulan Mei, serta penjualan dengan tipe mobil **Tiggo 7 Pro Premium (4x2)** yang hanya terjual pada bulan Januari, Februari, September, dan Desember.
-- **Cluster 4:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh satu tipe mobil, yaitu **Tiggo 8 Pro Premium (4x2) AT**, meskipun tidak ada penjualan pada bulan September, November, dan Desember.
+- **Cluster 4:** Rentang bulan Januari hingga Desember menunjukkan penjualan mobil yang didominasi oleh tipe Omoda 5 RZ (4x2) AT, dengan jumlah penjualan lebih tinggi dibandingkan dengan tipe mobil Omoda 5 Z (4x2) AT Two Tone yang hanya terjual pada bulan Maret, April, Agustus, September, Oktober, dan Desember.
     ''')
     st.markdown("---")
     selected_tab = option_menu(
