@@ -161,8 +161,8 @@ def clustering_kmeans(df):
     st.markdown('''
     Terlihat pada grafik scatter plot di atas terdapat 4 cluster, di mana masing-masing cluster memiliki ciri khas:
 
-- **Cluster 1:** Rentang bulan Mei hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil Omoda 5 Z(4x2) AT, kecuali bulan Juni, Juli, dan November yang tidak memiliki penjualan dengan tipe mobil tersebut. Selain itu, terdapat penjualan dengan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
-- **Cluster 2:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT, meskipun tidak ada penjualan pada bulan September, November, dan Desember.
+- **Cluster 1:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh satu tipe mobil, yaitu Tiggo 8 Pro Premium (4x2) AT, meskipun tidak ada penjualan pada bulan September, November, dan Desember. 
+- **Cluster 2:** Rentang bulan Mei hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil Omoda 5 Z(4x2) AT, kecuali bulan Juni, Juli, dan November yang tidak memiliki penjualan dengan tipe mobil tersebut. Selain itu, terdapat penjualan dengan tipe mobil Tiggo 7 Pro Comfort (4x2) AT pada bulan Mei dan Agustus.
 - **Cluster 3:** Rentang bulan Januari hingga Desember menunjukkan penjualan yang didominasi oleh tipe mobil **Tiggo 7 Pro Premium (4x2) AT Two Tone**, walaupun tidak ada penjualan pada bulan April, Mei, Juli, Agustus, Oktober, November, dan Desember. Selain itu, terdapat penjualan dengan tipe mobil **Tiggo 7 Pro Luxury (4x2) AT** hanya pada bulan Mei, serta penjualan dengan tipe mobil **Tiggo 7 Pro Premium (4x2)** yang hanya terjual pada bulan Januari, Februari, September, dan Desember.
 - **Cluster 4:** Rentang bulan Januari hingga Desember menunjukkan penjualan mobil yang didominasi oleh tipe Omoda 5 RZ (4x2) AT, dengan jumlah penjualan lebih tinggi dibandingkan dengan tipe mobil Omoda 5 Z (4x2) AT Two Tone yang hanya terjual pada bulan Maret, April, Agustus, September, Oktober, dan Desember.
     ''')
