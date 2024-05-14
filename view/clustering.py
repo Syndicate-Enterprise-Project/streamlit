@@ -12,16 +12,8 @@ data_clean = data.load_data_clean()
 
 
 def dataset(df):
-    filter_options = ['cluster_kmeans', 'cluster_hc', 'Tipe Mobil', 'Warna', 'Sumber Penjualan', 'Harga (Rp)',
-                      'Cara Pembayaran']
-    selected_filters = st.multiselect("Pilih kolom untuk filter:", filter_options)
-
-    if selected_filters:
-        filtered_df = df.loc[:, selected_filters]
-        filtered_df = filtered_df.drop(['cluster_hc'], axis=1)
-        st.dataframe(filtered_df)
-    else:
-        st.dataframe(df)
+    df = df.drop(['cluster_hc'], axis=1)
+    st.dataframe(df)
 
 
 def display_kmeans(df):
