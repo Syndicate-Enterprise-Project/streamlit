@@ -6,8 +6,7 @@ from model import model as data
 from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_option_menu import option_menu
 
-data_modeling = data.load_data_modelling().copy()
-data_modeling['cluster_kmeans'] = data_modeling['cluster_kmeans'].apply(lambda x: x + 1)
+data_modeling = data.load_data_modelling()
 
 data_clean = data.load_data_clean()
 
